@@ -6,6 +6,16 @@
 
 - removed boilerplate code and built and ran the Vite development server
 
+- I also went into vite.config.ts as I've done in the past and added the following property to the server: { port: 3000, open: true }. This was done as port 3000 is just a personal preference, setting open to true allows the app to open in the browser when the Vite server starts up, which speeds development.
+
+- researched how to implement websockets and tools like socket.io
+
+- found and followed the socket.io docs to start creating a server
+
+- copied their starter code, ran it locally with the node command, and was greeted with "User connected"
+
+- I realized that I cannot run this server and vite at the same time in my terminal, so I installed the concurrency package (npm install concurrency --save-dev) to let me perform concurrent commands ("dev": "concurrently \"node server.cjs\" \"vite\"",)
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
