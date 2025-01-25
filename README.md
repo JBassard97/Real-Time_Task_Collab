@@ -16,6 +16,27 @@
 
 - I realized that I cannot run this server and vite at the same time in my terminal, so I installed the concurrency package (npm install concurrency --save-dev) to let me perform concurrent commands ("dev": "concurrently \"node server.cjs\" \"vite\"",)
 
+- The documentation emphasized the power of custom events. I realized I could define events like addTask, completeTask, and deleteTask to handle task updates. The section on socket.on explained how to listen for events from the client, and io.emit demonstrated broadcasting updates to all connected clients. I experimented by emitting a simple message event, and when it worked flawlessly, I knew I could apply the same logic to my task management system.
+
+I needed to store tasks in memory so the server could send the full list to any newly connected clients. The docs covered concepts like in-memory storage and data synchronization, which helped me implement the tasks array. I was amazed at how easily I could share the array's state with every user through the io.emit function.
+
+With the server.cjs done it was time to connect it to the React Frontend
+
+I discovered the Socket.IO Client library, specifically built for connecting to a WebSocket server. npm install socket.io-client
+
+After that, I learned how to initialize a connection with io(). The example provided a simple way to establish a WebSocket connection, which I integrated into my React app. Using const socket = io("ws://localhost:3001");, my app successfully connected to the server.
+
+"Client API" section of the docs explained how to listen for events from the server. I learned about the socket.on() method, which allowed me to receive real-time updates. For my app, I used this to listen for the "tasks" event, which sent the updated task list from the server. Using socket.on("tasks", (updatedTasks) => { setTasks(updatedTasks); });, I could see the tasks sync in real time whenever the server broadcasted changes.
+
+socket.emit(), which let the client send custom events to the server. This was exactly what I needed for features like adding, completing, and deleting tasks. I implemented functions like addTask, where the client emitted the addTask event along with task data: socket.emit("addTask", task);
+
+Finally, I integrated everything into my React app. The Socket.IO Client + React section suggested using useEffect to manage the WebSocket connection's lifecycle. I followed this approach, ensuring the client connected when the component mounted and cleaned up when it unmounted
+
+I did some tenative inline styles within App.tsx's component
+
+
+
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
