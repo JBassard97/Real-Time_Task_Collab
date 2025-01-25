@@ -11,7 +11,7 @@ interface Task {
 
 const socket: Socket = io(
   process.env.NODE_ENV === "production"
-    ? `https://${window.location.hostname}` // Production URL
+    ? `https://${window.location.hostname}:3001` // Production URL
     : "ws://localhost:3001" // Local development URL
 );
 
