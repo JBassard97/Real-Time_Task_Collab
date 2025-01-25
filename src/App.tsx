@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { io, Socket } from "socket.io-client";
+import "./App.css";
 
 interface Task {
   id: number;
   text: string;
   completed: boolean;
+  creatorId: string;
 }
 
 const socket: Socket = io("ws://localhost:3001");
@@ -12,10 +14,11 @@ const socket: Socket = io("ws://localhost:3001");
 const App: React.FC = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [newTask, setNewTask] = useState<string>("");
-  const [room, setRoom] = useState<string>("");
+  const [room, setRoom] = useState<string>(""); // Actual room name
+  const [roomInput, setRoomInput] = useState<string>(""); // Input field value
+  const [hasJoinedRoom, setHasJoinedRoom] = useState<boolean>(false);
 
   useEffect(() => {
-    // Listen for task updates from the server
     socket.on("tasks", (updatedTasks: Task[]) => {
       setTasks(updatedTasks);
     });
@@ -25,15 +28,25 @@ const App: React.FC = () => {
     };
   }, []);
 
-  const joinRoom = () => {
-    if (room.trim()) {
-      socket.emit("joinRoom", room);
+  const joinRoom = (e: React.FormEvent) => {
+    e.preventDefault(); 
+    if (roomInput.trim()) {
+      setRoom(roomInput); // Update the actual room state
+      socket.emit("joinRoom", roomInput);
+      setHasJoinedRoom(true);
+      setRoomInput(""); // Reset the input field's value 
     }
   };
 
-  const addTask = () => {
+  const addTask = (e: React.FormEvent) => {
+    e.preventDefault();
     if (newTask.trim() && room) {
-      const task: Task = { id: Date.now(), text: newTask, completed: false };
+      const task: Task = {
+        id: Date.now(),
+        text: newTask,
+        completed: false,
+        creatorId: socket.id || "",
+      };
       socket.emit("addTask", { room, task });
       setNewTask("");
     }
@@ -52,43 +65,71 @@ const App: React.FC = () => {
   };
 
   return (
-    <div style={{ padding: "20px", fontFamily: "Arial, sans-serif" }}>
+    <div style={{ paddingLeft: "10px" }}>
       <h1>Real-Time Task Collaboration</h1>
-      <div>
-        <input
-          type="text"
-          value={room}
-          onChange={(e) => setRoom(e.target.value)}
-          placeholder="Enter room name"
-        />
-        <button onClick={joinRoom}>Join Room</button>
-      </div>
-      <div>
-        <input
-          type="text"
-          value={newTask}
-          onChange={(e) => setNewTask(e.target.value)}
-          placeholder="Add a new task"
-        />
-        <button onClick={addTask}>Add Task</button>
-      </div>
-      <ul>
-        {tasks.map((task) => (
-          <li key={task.id}>
-            <span
-              style={{
-                textDecoration: task.completed ? "line-through" : "none",
-              }}
-            >
-              {task.text}
-            </span>
-            <button onClick={() => toggleComplete(task.id)}>
-              {task.completed ? "Undo" : "Complete"}
-            </button>
-            <button onClick={() => deleteTask(task.id)}>Delete</button>
-          </li>
-        ))}
-      </ul>
+
+      {/* Join Room Form */}
+      <form onSubmit={joinRoom} style={{ marginBottom: "2rem" }}>
+        <h3>Join a Room</h3>
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <input
+            type="text"
+            value={roomInput}
+            onChange={(e) => setRoomInput(e.target.value)} // Update input value
+            placeholder="Enter room name"
+            required
+          />
+          <button type="submit">Go</button>
+        </div>
+      </form>
+
+      {/* Only show tasks and task form after joining */}
+      {hasJoinedRoom && (
+        <div>
+          <h2 style={{ marginBottom: "1rem" }}>Current Room: {room}</h2>
+
+          {/* Add Task Form */}
+          <form onSubmit={addTask} style={{ marginBottom: "1rem" }}>
+            <h3>Add a Task</h3>
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <input
+                type="text"
+                value={newTask}
+                onChange={(e) => setNewTask(e.target.value)}
+                placeholder="Add a new task"
+                required
+              />
+              <button type="submit">Add Task</button>
+            </div>
+          </form>
+
+          {/* Task List */}
+          <ul style={{ listStyle: "none" }}>
+            {tasks.map((task) => (
+              <li key={task.id} style={{ marginBottom: "0.5rem" }}>
+                <div>
+                  <span
+                    style={{
+                      textDecoration: task.completed ? "line-through" : "none",
+                    }}
+                  >
+                    {task.text}
+                  </span>
+                  <div>
+                    <span style={{ fontStyle: "italic", color: "#777" }}>
+                      Task Created By: {task.creatorId}
+                    </span>
+                  </div>
+                </div>
+                <button onClick={() => toggleComplete(task.id)}>
+                  {task.completed ? "Undo" : "Complete"}
+                </button>
+                <button onClick={() => deleteTask(task.id)}>Delete</button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 };

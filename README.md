@@ -34,6 +34,8 @@ Finally, I integrated everything into my React app. The Socket.IO Client + React
 
 I did some tenative inline styles within App.tsx's component
 
+At this point in the development, I had an MVP. But I wanted to go beyond and see all of the things I can do with this WebSocket server. So I learned how to let users create rooms and join rooms.
+
 
 
 

@@ -26,9 +26,10 @@ io.on("connection", (socket) => {
 
   // Add task to a specific room
   socket.on("addTask", ({ room, task }) => {
+    const newTask = { ...task, creatorId: socket.id }; // Attach creatorId to the task
     if (!roomTasks[room]) return;
 
-    roomTasks[room].push(task);
+    roomTasks[room].push(newTask);
     io.to(room).emit("tasks", roomTasks[room]); // Broadcast updated tasks to the room
   });
 
