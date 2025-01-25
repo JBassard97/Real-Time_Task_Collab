@@ -6,32 +6,48 @@ const io = new Server(3001, {
   },
 });
 
-let tasks = [];
+// Tasks for each room
+const roomTasks = {};
 
 io.on("connection", (socket) => {
   console.log("User connected:", socket.id);
 
-  // Send current tasks to the connected client
-  socket.emit("tasks", tasks);
+  // Join a room
+  socket.on("joinRoom", (room) => {
+    socket.join(room);
+    console.log(`User ${socket.id} joined room: ${room}`);
 
-  // Handle adding a task
-  socket.on("addTask", (task) => {
-    tasks.push(task);
-    io.emit("tasks", tasks); // Broadcast updated tasks
+    // Send the current tasks for the room to the newly connected client
+    if (!roomTasks[room]) {
+      roomTasks[room] = []; // Initialize the room's task list if it doesn't exist
+    }
+    socket.emit("tasks", roomTasks[room]);
   });
 
-  // Handle completing a task
-  socket.on("completeTask", (id) => {
-    tasks = tasks.map((task) =>
+  // Add task to a specific room
+  socket.on("addTask", ({ room, task }) => {
+    if (!roomTasks[room]) return;
+
+    roomTasks[room].push(task);
+    io.to(room).emit("tasks", roomTasks[room]); // Broadcast updated tasks to the room
+  });
+
+  // Complete a task in a specific room
+  socket.on("completeTask", ({ room, id }) => {
+    if (!roomTasks[room]) return;
+
+    roomTasks[room] = roomTasks[room].map((task) =>
       task.id === id ? { ...task, completed: !task.completed } : task
     );
-    io.emit("tasks", tasks);
+    io.to(room).emit("tasks", roomTasks[room]);
   });
 
-  // Handle deleting a task
-  socket.on("deleteTask", (id) => {
-    tasks = tasks.filter((task) => task.id !== id);
-    io.emit("tasks", tasks);
+  // Delete a task in a specific room
+  socket.on("deleteTask", ({ room, id }) => {
+    if (!roomTasks[room]) return;
+
+    roomTasks[room] = roomTasks[room].filter((task) => task.id !== id);
+    io.to(room).emit("tasks", roomTasks[room]);
   });
 
   socket.on("disconnect", () => {
