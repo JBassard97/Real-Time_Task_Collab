@@ -9,7 +9,11 @@ interface Task {
   creatorId: string;
 }
 
-const socket: Socket = io("ws://localhost:3001");
+const socket: Socket = io(
+  process.env.NODE_ENV === "production"
+    ? `https://${window.location.hostname}` // Production URL
+    : "ws://localhost:3001" // Local development URL
+);
 
 const App: React.FC = () => {
   const [tasks, setTasks] = useState<Task[]>([]);

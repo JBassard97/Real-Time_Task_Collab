@@ -2,7 +2,7 @@ const { Server } = require("socket.io");
 
 const io = new Server(3001, {
   cors: {
-    origin: "https://celebrated-druid-ce3b10.netlify.app/",
+    origin: "*",
   },
 });
 
