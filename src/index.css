@@ -11,6 +11,8 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  border: 1px solid blue;
 }
 
 body {
@@ -20,16 +22,21 @@ body {
   min-height: 100vh;
 }
 
-h1 {
-  line-height: 1.1;
-}
-
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   margin: 0;
 }
 
 h1 {
-  margin: 0.5rem;
+  /* margin: 0.5rem 0; */
+  width: 100%;
+  border: 1px solid pink;
+  text-align: center;
+}
+
+form {
+  padding: 1rem;
 }
 
 button {

@@ -29,12 +29,12 @@ const App: React.FC = () => {
   }, []);
 
   const joinRoom = (e: React.FormEvent) => {
-    e.preventDefault(); 
+    e.preventDefault();
     if (roomInput.trim()) {
       setRoom(roomInput); // Update the actual room state
       socket.emit("joinRoom", roomInput);
       setHasJoinedRoom(true);
-      setRoomInput(""); // Reset the input field's value 
+      setRoomInput(""); // Reset the input field's value
     }
   };
 
@@ -65,8 +65,8 @@ const App: React.FC = () => {
   };
 
   return (
-    <div style={{ paddingLeft: "10px" }}>
-      <h1>Real-Time Task Collaboration</h1>
+    <div style={{ width: "100%" }}>
+      <h1>Real-Time Task Collab</h1>
 
       {/* Join Room Form */}
       <form onSubmit={joinRoom} style={{ marginBottom: "2rem" }}>
@@ -86,7 +86,10 @@ const App: React.FC = () => {
       {/* Only show tasks and task form after joining */}
       {hasJoinedRoom && (
         <div>
-          <h2 style={{ marginBottom: "1rem" }}>Current Room: {room}</h2>
+          <h2 style={{ width: "100%", textAlign: "center" }}>
+            <span style={{ textDecoration: "underline" }}>Current Room:</span>
+            <span style={{ textDecoration: "none" }}> "{room}"</span>
+          </h2>
 
           {/* Add Task Form */}
           <form onSubmit={addTask} style={{ marginBottom: "1rem" }}>
