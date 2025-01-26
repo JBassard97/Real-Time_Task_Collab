@@ -1,21 +1,10 @@
 const { Server } = require("socket.io");
-const express = require("express");
-const path = require("path");
 
-const app = express();
 const port = process.env.PORT || 3001;
-const io = new Server(app.listen(port), {
+const io = new Server(port, {
   cors: {
     origin: "*",
   },
-});
-
-// Serve static files from the 'dist' directory
-app.use(express.static(path.join(__dirname, 'dist')));
-
-// Fallback to index.html for SPA
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
 // Store tasks for each room

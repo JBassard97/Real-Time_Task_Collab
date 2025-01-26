@@ -4,9 +4,6 @@ import react from '@vitejs/plugin-react/dist/index.d.mts'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  build: {
-    outDir: 'dist' // Specify the output directory
-  },
   server: {
     proxy: {
       '/socket.io': {
