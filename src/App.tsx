@@ -11,8 +11,10 @@ interface Task {
 
 const socket: Socket = io(
   process.env.NODE_ENV === "production"
-    ? `https://${window.location.hostname}:3001` // Production URL
-    : "ws://localhost:3001" // Local development URL
+    ? `${window.location.protocol === "https:" ? "wss" : "ws"}://${
+        window.location.hostname
+      }:3001`
+    : "ws://localhost:3001"
 );
 
 const App: React.FC = () => {
