@@ -1,4 +1,4 @@
-const { Server } = require("./client/node_modules/socket.io/dist");
+const { Server } = require("socket.io");
 
 const port = process.env.PORT || 3001;
 const io = new Server(port, {
