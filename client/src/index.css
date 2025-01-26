@@ -50,3 +50,15 @@ button {
   transition: all 0.25s ease;
   margin-left: 0.5rem;
 }
+
+.complete-button:hover {
+  color: lightgreen;
+}
+
+.undo-button:hover {
+  color: lightblue;
+}
+
+.delete-button:hover {
+  color: lightcoral;
+}
