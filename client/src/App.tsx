@@ -20,38 +20,34 @@ const socket: Socket = io(
 );
 
 const App: React.FC = () => {
-  const [tasks, setTasks] = useState<Task[]>([]);
-  const [newTask, setNewTask] = useState<string>("");
-  const [room, setRoom] = useState<string>(""); // Actual room name
-  const [roomInput, setRoomInput] = useState<string>(""); // Input field value
+  const [tasks, setTasks] = useState<Task[]>([]); 
+  const [newTask, setNewTask] = useState<string>(""); 
+  const [room, setRoom] = useState<string>(""); 
+  const [roomInput, setRoomInput] = useState<string>(""); 
   const [hasJoinedRoom, setHasJoinedRoom] = useState<boolean>(false);
 
- useEffect(() => {
-   // Log connection
-   socket.on("connect", () => {
-     console.log(`Connected to Websocket: ${socket.id}`);
-   });
+  useEffect(() => {
+    socket.on("connect", () => {
+      console.log(`Connected to Websocket: ${socket.id}`);
+    });
 
-   // Listen for tasks updates
-   socket.on("tasks", (updatedTasks: Task[]) => {
-     setTasks(updatedTasks);
-   });
+    socket.on("tasks", (updatedTasks: Task[]) => {
+      setTasks(updatedTasks);
+    });
 
-   // Clean up listeners
-   return () => {
-     socket.off("connect");
-     socket.off("tasks");
-   };
- }, []);
-
+    return () => {
+      socket.off("connect");
+      socket.off("tasks");
+    };
+  }, []);
 
   const joinRoom = (e: React.FormEvent) => {
     e.preventDefault();
     if (roomInput.trim()) {
-      setRoom(roomInput); // Update the actual room state
+      setRoom(roomInput);
       socket.emit("joinRoom", roomInput);
       setHasJoinedRoom(true);
-      setRoomInput(""); // Reset the input field's value
+      setRoomInput("");
     }
   };
 
@@ -64,14 +60,14 @@ const App: React.FC = () => {
         completed: false,
         creatorId: socket.id || "",
       };
-      socket.emit("addTask", { room, task });
+      socket.emit("createTask", { room, task });
       setNewTask("");
     }
   };
 
   const toggleComplete = (id: number) => {
     if (room) {
-      socket.emit("completeTask", { room, id });
+      socket.emit("completeTask", { room, id }); 
     }
   };
 
@@ -85,14 +81,13 @@ const App: React.FC = () => {
     <div style={{ width: "100%" }}>
       <h1>Real-Time Task Collab</h1>
 
-      {/* Join Room Form */}
       <form onSubmit={joinRoom} style={{ marginBottom: "2rem" }}>
         <h3>Join a Room</h3>
         <div style={{ display: "flex", alignItems: "center" }}>
           <input
             type="text"
             value={roomInput}
-            onChange={(e) => setRoomInput(e.target.value)} // Update input value
+            onChange={(e) => setRoomInput(e.target.value)}
             placeholder="Enter room name"
             required
           />
@@ -100,7 +95,6 @@ const App: React.FC = () => {
         </div>
       </form>
 
-      {/* Only show tasks and task form after joining */}
       {hasJoinedRoom && (
         <div>
           <h2 style={{ width: "100%", textAlign: "center" }}>
@@ -108,7 +102,6 @@ const App: React.FC = () => {
             <span style={{ textDecoration: "none" }}> "{room}"</span>
           </h2>
 
-          {/* Add Task Form */}
           <form onSubmit={addTask} style={{ marginBottom: "1rem" }}>
             <h3>Add a Task</h3>
             <div style={{ display: "flex", alignItems: "center" }}>
@@ -123,7 +116,6 @@ const App: React.FC = () => {
             </div>
           </form>
 
-          {/* Task List */}
           <ul style={{ listStyle: "none" }}>
             {tasks.map((task) => (
               <li key={task.id} style={{ marginBottom: "0.5rem" }}>
