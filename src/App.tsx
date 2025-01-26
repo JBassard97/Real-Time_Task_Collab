@@ -9,12 +9,14 @@ interface Task {
   creatorId: string;
 }
 
+// Socket connection logic
 const socket: Socket = io(
   process.env.NODE_ENV === "production"
-    ? `${window.location.protocol === "https:" ? "wss" : "ws"}://${
-        window.location.hostname
-      }:3001`
-    : "ws://localhost:3001"
+    ? window.location.origin
+    : "http://localhost:3001",
+  {
+    transports: ["websocket"], // Ensure WebSocket is used
+  }
 );
 
 const App: React.FC = () => {

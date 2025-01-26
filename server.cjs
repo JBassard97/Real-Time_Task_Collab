@@ -1,11 +1,9 @@
 const { Server } = require("socket.io");
 
-const io = new Server(3001, {
+const port = process.env.PORT || 3001;
+const io = new Server(port, {
   cors: {
-    origin:
-      process.env.ALLOWED_ORIGIN ||
-      "https://celebrated-druid-ce3b10.netlify.app/",
-    methods: ["GET", "POST"],
+    origin: "*",
   },
 });
 
