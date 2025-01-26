@@ -2,9 +2,14 @@
   "name": "real-time_task_collab",
   "version": "1.0.0",
   "description": "- created a github repo with an accurate name and project description",
-  "main": "index.js",
+  "main": "server/server.cjs",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "develop": "concurrently \"cd server && npm run watch\" \"cd client && npm run dev\"",
+    "install": "cd server && npm i && cd ../client && npm i",
+    "build": "cd client && npm run build",
+    "final-build": "npm run install && npm run build",
+    "start": "node server/server.cjs"
   },
   "repository": {
     "type": "git",
@@ -17,5 +22,8 @@
   "bugs": {
     "url": "https://github.com/JBassard97/Real-Time_Task_Collab/issues"
   },
-  "homepage": "https://github.com/JBassard97/Real-Time_Task_Collab#readme"
+  "homepage": "https://github.com/JBassard97/Real-Time_Task_Collab#readme",
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
 }

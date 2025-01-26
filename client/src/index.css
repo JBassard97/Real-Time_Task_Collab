@@ -11,8 +11,6 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
-  border: 1px solid blue;
 }
 
 body {
@@ -31,12 +29,12 @@ h3 {
 h1 {
   /* margin: 0.5rem 0; */
   width: 100%;
-  border: 1px solid pink;
   text-align: center;
 }
 
 form {
-  padding: 1rem;
+  padding-top: 1rem;
+  padding-left: 1rem;
 }
 
 button {

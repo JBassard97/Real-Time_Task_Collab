@@ -26,15 +26,24 @@ const App: React.FC = () => {
   const [roomInput, setRoomInput] = useState<string>(""); // Input field value
   const [hasJoinedRoom, setHasJoinedRoom] = useState<boolean>(false);
 
-  useEffect(() => {
-    socket.on("tasks", (updatedTasks: Task[]) => {
-      setTasks(updatedTasks);
-    });
+ useEffect(() => {
+   // Log connection
+   socket.on("connect", () => {
+     console.log(`Connected to Websocket: ${socket.id}`);
+   });
 
-    return () => {
-      socket.off("tasks");
-    };
-  }, []);
+   // Listen for tasks updates
+   socket.on("tasks", (updatedTasks: Task[]) => {
+     setTasks(updatedTasks);
+   });
+
+   // Clean up listeners
+   return () => {
+     socket.off("connect");
+     socket.off("tasks");
+   };
+ }, []);
+
 
   const joinRoom = (e: React.FormEvent) => {
     e.preventDefault();
