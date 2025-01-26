@@ -1,6 +1,7 @@
 const http = require("http");
 const path = require("path");
 const fs = require("fs");
+const mime = require("mime");
 const { Server } = require("socket.io");
 
 // Create a basic HTTP server
@@ -12,8 +13,16 @@ const server = http.createServer((req, res) => {
       "../client/dist",
       req.url === "/" ? "/index.html" : req.url
     );
+
     fs.exists(filePath, (exists) => {
       if (exists) {
+        // Get the MIME type using the mime module
+        const fileMimeType =
+          mime.getType(filePath) || "application/octet-stream"; // Default to binary if MIME is not found
+
+        // Set the correct Content-Type header based on the MIME type
+        res.setHeader("Content-Type", fileMimeType);
+
         fs.createReadStream(filePath).pipe(res);
       } else {
         res.writeHead(404, { "Content-Type": "text/html" });
