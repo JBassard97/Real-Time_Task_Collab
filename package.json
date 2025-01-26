@@ -8,11 +8,12 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "start": "node server.cjs"
+    "start": "node server.cjs && serve dist"
   },
   "dependencies": {
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "serve": "^14.2.4",
     "socket.io": "^4.8.1",
     "socket.io-client": "^4.8.1"
   },
