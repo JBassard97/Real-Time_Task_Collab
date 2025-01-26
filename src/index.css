@@ -12,6 +12,7 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
+  border: 1px solid blue;
 }
 
 body {
@@ -28,13 +29,10 @@ h3 {
 }
 
 h1 {
-  margin: 0.5rem 0;
+  /* margin: 0.5rem 0; */
   width: 100%;
+  border: 1px solid pink;
   text-align: center;
-}
-
-h2 {
-  color: lightblue;
 }
 
 form {
@@ -51,16 +49,4 @@ button {
   cursor: pointer;
   transition: all 0.25s ease;
   margin-left: 0.5rem;
-}
-
-.complete-button:hover {
-  color: lightgreen;
-}
-
-.undo-button:hover {
-  color: lightblue;
-}
-
-.delete-button:hover {
-  color: lightcoral;
 }

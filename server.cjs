@@ -7,7 +7,7 @@ const io = new Server(port, {
   },
 });
 
-// Store tasks for each room
+// Tasks for each room
 const roomTasks = {};
 
 io.on("connection", (socket) => {
@@ -18,17 +18,11 @@ io.on("connection", (socket) => {
     socket.join(room);
     console.log(`User ${socket.id} joined room: ${room}`);
 
-    // Send current tasks to the newly connected user
+    // Send the current tasks for the room to the newly connected client
     if (!roomTasks[room]) {
-      roomTasks[room] = []; // Initialize if room doesn't exist
+      roomTasks[room] = []; // Initialize the room's task list if it doesn't exist
     }
-    socket.emit("updateTasks", roomTasks[room]); // Send tasks to user
-  });
-
-  // Leave a room
-  socket.on("leaveRoom", (room) => {
-    socket.leave(room);
-    console.log(`User ${socket.id} left room: ${room}`);
+    socket.emit("tasks", roomTasks[room]);
   });
 
   // Add task to a specific room
@@ -36,28 +30,30 @@ io.on("connection", (socket) => {
     if (!roomTasks[room]) return;
 
     roomTasks[room].push(task);
-    io.to(room).emit("updateTasks", roomTasks[room]); // Broadcast updated tasks
+    io.to(room).emit("tasks", roomTasks[room]); // Broadcast updated tasks to the room
   });
 
-  // Complete a task
+  // Complete a task in a specific room
   socket.on("completeTask", ({ room, id }) => {
     if (!roomTasks[room]) return;
 
     roomTasks[room] = roomTasks[room].map((task) =>
       task.id === id ? { ...task, completed: !task.completed } : task
     );
-    io.to(room).emit("updateTasks", roomTasks[room]);
+    io.to(room).emit("tasks", roomTasks[room]);
   });
 
-  // Delete a task
+  // Delete a task in a specific room
   socket.on("deleteTask", ({ room, id }) => {
     if (!roomTasks[room]) return;
 
     roomTasks[room] = roomTasks[room].filter((task) => task.id !== id);
-    io.to(room).emit("updateTasks", roomTasks[room]);
+    io.to(room).emit("tasks", roomTasks[room]);
   });
 
   socket.on("disconnect", () => {
     console.log("User disconnected:", socket.id);
   });
 });
+
+console.log("WebSocket server running on ws://localhost:3001");

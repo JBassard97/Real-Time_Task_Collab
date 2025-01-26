@@ -27,12 +27,12 @@ const App: React.FC = () => {
   const [hasJoinedRoom, setHasJoinedRoom] = useState<boolean>(false);
 
   useEffect(() => {
-    socket.on("updateTasks", (updatedTasks: Task[]) => {
-      setTasks(updatedTasks); // Update tasks when received
+    socket.on("tasks", (updatedTasks: Task[]) => {
+      setTasks(updatedTasks);
     });
 
     return () => {
-      socket.off("updateTasks"); // Cleanup on unmount
+      socket.off("tasks");
     };
   }, []);
 
@@ -77,7 +77,7 @@ const App: React.FC = () => {
       <h1>Real-Time Task Collab</h1>
 
       {/* Join Room Form */}
-      <form onSubmit={joinRoom}>
+      <form onSubmit={joinRoom} style={{ marginBottom: "2rem" }}>
         <h3>Join a Room</h3>
         <div style={{ display: "flex", alignItems: "center" }}>
           <input
@@ -122,38 +122,20 @@ const App: React.FC = () => {
                   <span
                     style={{
                       textDecoration: task.completed ? "line-through" : "none",
-                      color: task.completed ? "lightgreen" : "white",
                     }}
                   >
                     {task.text}
                   </span>
                   <div>
-                    <span
-                      style={{
-                        fontStyle: "italic",
-                        color: task.completed ? "green" : "#777",
-                      }}
-                    >
+                    <span style={{ fontStyle: "italic", color: "#777" }}>
                       Task Created By: {task.creatorId}
                     </span>
                   </div>
                 </div>
-                <div className="task-buttons" style={{ marginTop: "0.25rem" }}>
-                  <button
-                    className={
-                      task.completed ? "undo-button" : "complete-button"
-                    }
-                    onClick={() => toggleComplete(task.id)}
-                  >
-                    {task.completed ? "Undo" : "Complete"}
-                  </button>
-                  <button
-                    className="delete-button"
-                    onClick={() => deleteTask(task.id)}
-                  >
-                    Delete
-                  </button>
-                </div>
+                <button onClick={() => toggleComplete(task.id)}>
+                  {task.completed ? "Undo" : "Complete"}
+                </button>
+                <button onClick={() => deleteTask(task.id)}>Delete</button>
               </li>
             ))}
           </ul>
