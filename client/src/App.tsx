@@ -20,10 +20,10 @@ const socket: Socket = io(
 );
 
 const App: React.FC = () => {
-  const [tasks, setTasks] = useState<Task[]>([]); 
-  const [newTask, setNewTask] = useState<string>(""); 
-  const [room, setRoom] = useState<string>(""); 
-  const [roomInput, setRoomInput] = useState<string>(""); 
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const [newTask, setNewTask] = useState<string>("");
+  const [room, setRoom] = useState<string>("");
+  const [roomInput, setRoomInput] = useState<string>("");
   const [hasJoinedRoom, setHasJoinedRoom] = useState<boolean>(false);
 
   useEffect(() => {
@@ -67,7 +67,7 @@ const App: React.FC = () => {
 
   const toggleComplete = (id: number) => {
     if (room) {
-      socket.emit("completeTask", { room, id }); 
+      socket.emit("completeTask", { room, id });
     }
   };
 
@@ -123,20 +123,34 @@ const App: React.FC = () => {
                   <span
                     style={{
                       textDecoration: task.completed ? "line-through" : "none",
+                      color: task.completed ? "lightgreen" : "white",
                     }}
                   >
                     {task.text}
                   </span>
                   <div>
-                    <span style={{ fontStyle: "italic", color: "#777" }}>
+                    <span
+                      style={{
+                        fontStyle: "italic",
+                        color: task.completed ? "green" : "#777",
+                      }}
+                    >
                       Task Created By: {task.creatorId}
                     </span>
                   </div>
                 </div>
-                <button onClick={() => toggleComplete(task.id)}>
+                <button
+                  className={task.completed ? "undo-button" : "complete-button"}
+                  onClick={() => toggleComplete(task.id)}
+                >
                   {task.completed ? "Undo" : "Complete"}
                 </button>
-                <button onClick={() => deleteTask(task.id)}>Delete</button>
+                <button
+                  className="delete-button"
+                  onClick={() => deleteTask(task.id)}
+                >
+                  Delete
+                </button>
               </li>
             ))}
           </ul>
