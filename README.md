@@ -22,6 +22,7 @@
   - [5. Extending Functionality](#5-extending-functionality)
   - [6. Deployment Journey](#6-deployment-journey)
 - [About the Creator](#about-the-creator)
+  - [Contact Me](#contact-me)
 
 
 
@@ -198,5 +199,14 @@ npm install concurrently --save-dev
 
 ## About the Creator
 
+Jonathan Acciarito is Full Stack Web Developer with 5 years of experience and a foundation from the Coding Bootcamp at University of Chapel Hill.
 
+He specialize in the MERN stack (MongoDB, Express.js, React, Node.js) and many other tools in the JavaScript ecosystem to create responsive, accessible, and user-friendly web applications.
+
+### Contact Me
+
+- [GitHub](https://github.com/JBassard97)
+- [Email Me](mailto:jonathanacciarito@gmail.com)
+- [LinkedIn](https://www.linkedin.com/in/jonathan-acciarito-46434b2aa/)
+- [NPM](https://www.npmjs.com/~jbassard97)
 
