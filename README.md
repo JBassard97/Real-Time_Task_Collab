@@ -1,5 +1,7 @@
 # Real-Time_Task_Collab
 
+![Screenshot 2025-01-26 220322](https://github.com/user-attachments/assets/387d528a-fbc7-4bf6-84e4-303bf35cd3e7)
+
 ## Table of Contents
 - [About the Project](#about-the-project)
   - [Built With](#built-with)
@@ -13,7 +15,7 @@
     - [3. Start Development Servers](#3-start-development-servers)
 - [Demonstrations](#demonstrations)
   - [Screenshots](#screenshots)
-  - [Videos](#videos)
+  - [Video](#video)
 - [My Thought Process](#my-thought-process)
   - [1. Project Initialization](#1-project-initialization)
   - [2. Exploring WebSocket Integration](#2-exploring-websocket-integration)
@@ -91,11 +93,31 @@ Navigate to the localhost address given by Vite and you have access to the full 
 
 ### Screenshots
 
-FILL IN LATER
+#### At app lauch
+![Screenshot 2025-01-26 213126](https://github.com/user-attachments/assets/b4a07044-dfd3-4d07-8d90-f68686762942)
 
-### Videos
+#### Trying to join a room with no input
+![Screenshot 2025-01-26 213201](https://github.com/user-attachments/assets/f606734f-cc4b-432a-a03a-fc406c226f97)
 
-FILL IN LATER
+#### Successfully joining a room
+![Screenshot 2025-01-26 213245](https://github.com/user-attachments/assets/817163a9-2773-4e07-8a33-0a4f322d5a0b)
+
+#### Trying to create a task with no input
+![Screenshot 2025-01-26 213331](https://github.com/user-attachments/assets/62f5352e-e7c9-46db-bb71-e70b4af28289)
+
+#### Successfully created tasks
+![Screenshot 2025-01-26 213601](https://github.com/user-attachments/assets/e3324e54-c560-4238-b059-c94cc7c9ea54)
+
+#### WebSocket working in production
+![Screenshot 2025-01-26 220322](https://github.com/user-attachments/assets/e9f66f07-20b7-4151-9e91-0f0c328ae778)
+
+### Video
+
+
+
+https://github.com/user-attachments/assets/cbb25d05-a92e-45ac-93d0-0eb9571a084e
+
+
 
 ## My Thought Process
 
